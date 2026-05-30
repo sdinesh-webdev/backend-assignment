@@ -6,16 +6,19 @@ const router = Router();
 // Register a new user
 router.post('/register', async (req: Request, res: Response): Promise<void> => {
   try {
-    const { email, password } = req.body;
+    const { email, password, name } = req.body;
 
-    if (!email || !password) {
-      res.status(400).json({ error: 'Email and password are required' });
+    if (!email || !password || !name) {
+      res.status(400).json({ error: 'Name, email and password are required' });
       return;
     }
 
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: { full_name: name },
+      },
     });
 
     if (error) {
