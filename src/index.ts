@@ -48,6 +48,11 @@ app.use((req: Request, res: Response) => {
   res.status(404).json({ error: 'ROUTE Not Found' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// Only start the server locally. Vercel will import this app and handle the server.
+if (process.env.NODE_ENV !== 'production' && process.env.VERCEL !== '1') {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
+
+export default app;
